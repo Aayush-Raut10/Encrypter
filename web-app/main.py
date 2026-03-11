@@ -12,7 +12,7 @@ def root():
 def ceaser_cipher(payload: dict = Body(...)):
 
     key = payload.get("key")
-    plain_text = payload.get("plain_text").upper()
+    plain_text = payload.get("plain_text").replace(" ", "").upper()
 
     cipher_text = ""
     
