@@ -139,7 +139,7 @@ const ENDPOINTS = {
     hill: 'hill-cipher',
     vigenere: 'vigenere-cipher',
     playfair: 'playfair-cipher',
-    rail_fence: 'rail-fence-cipher',
+    rail_fence: 'rail-fence',
     affine: 'affine-cipher',
 };
 
