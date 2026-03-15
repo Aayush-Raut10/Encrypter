@@ -49,3 +49,5 @@ def rail_fence(payload: dict = Body(...)):
         cipher_text += ''.join(row)
 
     return {"cipher_text": cipher_text}
+
+
