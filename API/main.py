@@ -34,11 +34,16 @@ def ceaser_cipher(payload: dict = Body(...)):
     cipher_text = ""
     
     for char in plain_text:
-        position = ord(char) - 65
+        if ord(char) != 10:
+            
+            position = ord(char) - 65
+
         
-        letter = chr((position + key) + 65 )
+            letter = chr((position + key) + 65 )
         
-        cipher_text += letter
+            cipher_text += letter
+        else:
+            cipher_text += char
     
     return {"cipher_text":cipher_text}
 
