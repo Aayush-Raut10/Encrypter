@@ -118,7 +118,7 @@ function getParams() {
     const p = {};
     const get = id => { const el = document.getElementById(id); return el ? el.value : null; };
     switch (currentAlgo) {
-        case 'caesar': p.shift = parseInt(get('caesarShift')) || 3; break;
+        case 'caesar': p.key = parseInt(get('caesarShift')) || 3; break;
         case 'hill': p.key = (get('hillKey') || 'GYBN').toUpperCase(); break;
         case 'vigenere': p.key = (get('vigenereKey') || 'SECRET').toUpperCase(); break;
         case 'playfair': p.key = (get('playfairKey') || 'MONARCHY').toUpperCase(); break;
@@ -134,7 +134,7 @@ function getParams() {
 const API_BASE = 'http://127.0.0.1:8000/encrypt';
 
 const ENDPOINTS = {
-    caesar: 'caeser-cipher',   // as given in your example
+    caesar: 'ceaser-cipher',   // as given in your example
     rot13: 'rot13-cipher',
     hill: 'hill-cipher',
     vigenere: 'vigenere-cipher',
@@ -153,7 +153,7 @@ async function callEncryptionAPI(algorithm, text, params, decrypt = false) {
     const url = `${API_BASE}/${slug}`;
 
     const body = {
-        text,
+        plain_text: text,
         mode: decrypt ? 'decrypt' : 'encrypt',
         ...params,          // spread shift / key / rails / a / b as top-level fields
     };
@@ -199,7 +199,8 @@ async function runCipher(decrypt) {
     try {
         const params = getParams();
         const result = await callEncryptionAPI(currentAlgo, text, params, decrypt);
-        showOutput(result);
+        const jsonRes = JSON.parse(result);
+        showOutput(jsonRes.cipher_text);
     } catch (err) {
         showError('API Error: ' + err.message);
     } finally {
