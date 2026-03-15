@@ -6,7 +6,7 @@ from fastapi.middleware.cors import CORSMiddleware
 app = FastAPI()
 
 origins = [
-    "localhost:5500",
+    "http://localhost:5500",
 ]
 
 app.add_middleware(
