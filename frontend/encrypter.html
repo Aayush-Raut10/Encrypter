@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Encrypter</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script src="script.js" defer></script>
+</head>
+
+<body>
+  <div class="container">
+
+    <!-- Header -->
+    <header>
+      <div class="logo-block">
+        <h1>ENC<span>R</span>YPTER</h1>
+        <div class="tagline">// Classical &amp; Modern Cipher Suite</div>
+      </div>
+      <div class="status-pill">API Ready</div>
+    </header>
+
+    <!-- Algorithm Selector -->
+    <div class="algo-section">
+      <div class="section-label">// Select Algorithm</div>
+      <div class="algo-grid" id="algoGrid">
+        <button class="algo-btn active" data-algo="caesar">
+          Caesar <span class="algo-tag tag-classic">CLASSIC</span>
+        </button>
+        <button class="algo-btn" data-algo="rot13">
+          ROT-13 <span class="algo-tag tag-classic">CLASSIC</span>
+        </button>
+        <button class="algo-btn" data-algo="hill">
+          Hill <span class="algo-tag tag-matrix">MATRIX</span>
+        </button>
+        <button class="algo-btn" data-algo="vigenere">
+          Vigenère <span class="algo-tag tag-classic">CLASSIC</span>
+        </button>
+        <button class="algo-btn" data-algo="playfair">
+          Playfair <span class="algo-tag tag-classic">CLASSIC</span>
+        </button>
+        <button class="algo-btn" data-algo="rail_fence">
+          Rail Fence <span class="algo-tag tag-modern">TRANSPOS</span>
+        </button>
+        <button class="algo-btn" data-algo="affine">
+          Affine <span class="algo-tag tag-classic">CLASSIC</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Algorithm Info -->
+    <div class="algo-info" id="algoInfo">
+      <strong>CAESAR :</strong> Shifts each letter by a fixed number of positions in the alphabet.
+    </div>
+
+    <!-- Params Panel -->
+    <div class="params-panel visible" id="paramsPanel">
+      <div class="section-label">// Parameters</div>
+      <div class="params-grid" id="paramsGrid">
+        <div class="param-group">
+          <div class="param-label">Shift Value</div>
+          <input class="param-input" id="caesarShift" type="number" value="3" min="1" max="25" />
+          <div class="param-hint">Integer 1–25</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Editor Row -->
+    <div class="editor-row">
+      <!-- Input Panel -->
+      <div class="editor-panel">
+        <div class="panel-header">
+          <div class="panel-title">
+            <span class="dot dot-plain"></span> Plaintext
+          </div>
+          <div style="display:flex;gap:8px;align-items:center">
+            <span class="char-count" id="charCount">0 chars</span>
+            <button class="panel-action" onclick="clearInput()">Clear</button>
+          </div>
+        </div>
+        <textarea id="inputText" placeholder="Type or paste your plaintext here..."></textarea>
+      </div>
+
+      <!-- Encrypt Button Column -->
+      <div class="encrypt-col">
+        <span class="encrypt-label">Encode</span>
+        <button class="encrypt-btn" id="encryptBtn" onclick="doEncrypt()" title="Encrypt">
+          <svg viewBox="0 0 24 24">
+            <path
+              d="M19 11H7.83l4.88-4.88c.39-.39.39-1.03 0-1.42-.39-.39-1.02-.39-1.41 0l-6.59 6.59c-.39.39-.39 1.02 0 1.41l6.59 6.59c.39.39 1.02.39 1.41 0 .39-.39.39-1.02 0-1.41L7.83 13H19c.55 0 1-.45 1-1s-.45-1-1-1z"
+              transform="scale(-1,1) translate(-24,0)" />
+          </svg>
+        </button>
+        <span class="encrypt-label">Run</span>
+      </div>
+
+      <!-- Output Panel -->
+      <div class="editor-panel" id="outputPanel">
+        <div class="panel-header">
+          <div class="panel-title">
+            <span class="dot dot-cipher"></span> Ciphertext
+          </div>
+          <button class="panel-action" onclick="copyOutput()">Copy</button>
+        </div>
+        <div class="output-area" id="outputArea">
+          <span class="output-placeholder">Encrypted output will appear here...</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Error -->
+    <div class="error-msg" id="errorMsg"></div>
+
+    <!-- Action Bar -->
+    <div class="action-bar">
+      <button class="btn-secondary btn-decrypt" onclick="doDecrypt()">
+        <svg viewBox="0 0 24 24">
+          <path
+            d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z" />
+        </svg>
+        Decrypt
+      </button>
+      <button class="btn-secondary" onclick="swapPanels()">
+        <svg viewBox="0 0 24 24">
+          <path d="M16 17.01V10h-2v7.01h-3L15 21l4-3.99h-3zM9 3L5 6.99h3V14h2V6.99h3L9 3z" />
+        </svg>
+        Swap
+      </button>
+      <button class="btn-secondary" onclick="copyOutput()">
+        <svg viewBox="0 0 24 24">
+          <path
+            d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z" />
+        </svg>
+        Copy Output
+      </button>
+    </div>
+
+  </div>
+
+  <!-- Toast -->
+  <div class="toast" id="toast"></div>
+</body>
+
+</html>
