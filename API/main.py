@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from fastapi.params import Body
 from fastapi.middleware.cors import CORSMiddleware
+from utils import encrypt_rail_fence, decrypt_rail_fence
 
 
 app = FastAPI()
@@ -71,26 +72,13 @@ def ceaser_cipher(payload: dict = Body(...)):
 def rail_fence(payload: dict = Body(...)):
 
     rails = payload.get("rails")
-    plain_text = payload.get("plain_text").replace(" ", "")  # remove spaces
+    text = payload.get("plain_text").replace(" ", "")  # remove spaces
+    mode = payload.get("mode", "encrypt")  # default to encryption
 
-    
-    fence = [ [] for i in range(rails)] # create rails
-    
-    rail = 0
-    direction = 1 # 1 = down, -1 = up
-
-    for char in plain_text:
-        fence[rail].append(char)
-        rail += direction
-
-        if rail == 0 or rail == rails - 1:
-            direction *= -1
-
-    cipher_text = ""
-    for row in fence:
-        cipher_text += ''.join(row)
-
-    return {"cipher_text": cipher_text}
-
-
+    if mode == "encrypt":
+        return {"cipher_text": encrypt_rail_fence(text, rails)}
+    elif mode == "decrypt":
+        return {"plain_text": decrypt_rail_fence(text, rails)}
+    else:
+        return {"error": "Mode must be 'encrypt' or 'decrypt'"}
 
