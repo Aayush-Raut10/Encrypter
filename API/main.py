@@ -30,7 +30,7 @@ def root():
 def ceaser_cipher(payload: dict = Body(...)):
 
     key = payload.get("key")
-    plain_text = payload.get("plain_text")
+    plain_text = payload.get("text")
     mode = payload.get("mode")
 
     if mode == "encrypt":
@@ -76,9 +76,9 @@ def rail_fence(payload: dict = Body(...)):
     mode = payload.get("mode", "encrypt")  # default to encryption
 
     if mode == "encrypt":
-        return {"cipher_text": encrypt_rail_fence(text, rails)}
+        return {"text": encrypt_rail_fence(text, rails)}
     elif mode == "decrypt":
-        return {"plain_text": decrypt_rail_fence(text, rails)}
+        return {"text": decrypt_rail_fence(text, rails)}
     else:
         return {"error": "Mode must be 'encrypt' or 'decrypt'"}
 
