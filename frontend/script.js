@@ -200,8 +200,7 @@ async function runCipher(decrypt) {
     try {
         const params = getParams();
         const result = await callEncryptionAPI(currentAlgo, text, params, decrypt);
-        const jsonRes = JSON.parse(result);
-        showOutput(jsonRes.text);
+        showOutput(result);
     } catch (err) {
         showError('API Error: ' + err.message);
     } finally {

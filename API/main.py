@@ -49,7 +49,7 @@ def ceaser_cipher(payload: dict = Body(...)):
             else:
                 cipher_text += char
         
-        return {"cipher_text":cipher_text}
+        return {"text":cipher_text}
     
     elif mode == "decrypt":
         cipher_text = ""
@@ -66,7 +66,7 @@ def ceaser_cipher(payload: dict = Body(...)):
             else:
                 cipher_text += char
         
-        return {"cipher_text":cipher_text}
+        return {"text":cipher_text}
 
 @app.post("/rail-fence")
 def rail_fence(payload: dict = Body(...)):
