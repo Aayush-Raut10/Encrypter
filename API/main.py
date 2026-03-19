@@ -67,7 +67,7 @@ def ceaser_cipher(payload: dict = Body(...)):
         
         return {"cipher_text":cipher_text}
 
-@app.post("/encrypt/rail-fence")
+@app.post("/rail-fence")
 def rail_fence(payload: dict = Body(...)):
 
     rails = payload.get("rails")
