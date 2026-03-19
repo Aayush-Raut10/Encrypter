@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.params import Body
 from fastapi.middleware.cors import CORSMiddleware
-from utils import encrypt_rail_fence, decrypt_rail_fence
+from API.utils import encrypt_rail_fence, decrypt_rail_fence
 
 
 app = FastAPI()
