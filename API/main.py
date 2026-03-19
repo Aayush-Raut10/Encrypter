@@ -25,27 +25,47 @@ def root():
     return {"message":"welcome to encrypter"}
 
 
-@app.post('/encrypt/ceaser-cipher')
+@app.post('/ceaser-cipher')
 def ceaser_cipher(payload: dict = Body(...)):
 
     key = payload.get("key")
     plain_text = payload.get("plain_text")
-    
-    cipher_text = ""
-    
-    for char in plain_text:
-        if ord(char) != 10:
-            
-            position = ord(char) - 65
+    mode = payload.get("mode")
 
-        
-            letter = chr((position + key) + 65 )
-        
-            cipher_text += letter
-        else:
-            cipher_text += char
+    if mode == "encrypt":
     
-    return {"cipher_text":cipher_text}
+        cipher_text = ""
+        
+        for char in plain_text:
+            if ord(char) != 10:
+                
+                position = ord(char) - 65
+
+            
+                letter = chr((position + key) + 65 )
+            
+                cipher_text += letter
+            else:
+                cipher_text += char
+        
+        return {"cipher_text":cipher_text}
+    
+    elif mode == "decrypt":
+        cipher_text = ""
+        
+        for char in plain_text:
+            if ord(char) != 10:
+                
+                position = ord(char) - 65
+
+            
+                letter = chr((position - key) + 65 )
+            
+                cipher_text += letter
+            else:
+                cipher_text += char
+        
+        return {"cipher_text":cipher_text}
 
 @app.post("/encrypt/rail-fence")
 def rail_fence(payload: dict = Body(...)):
@@ -71,5 +91,6 @@ def rail_fence(payload: dict = Body(...)):
         cipher_text += ''.join(row)
 
     return {"cipher_text": cipher_text}
+
 
 
