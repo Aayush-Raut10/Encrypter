@@ -72,7 +72,7 @@ def ceaser_cipher(payload: dict = Body(...)):
 def rail_fence(payload: dict = Body(...)):
 
     rails = payload.get("rails")
-    text = payload.get("plain_text").replace(" ", "")  # remove spaces
+    text = payload.get("text").replace(" ", "")  # remove spaces
     mode = payload.get("mode", "encrypt")  # default to encryption
 
     if mode == "encrypt":

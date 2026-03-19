@@ -131,7 +131,8 @@ function getParams() {
 // ──────────────────────────────────────────────
 // API endpoint map  →  http://127.0.0.1:8000/encrypt/<slug>
 // ──────────────────────────────────────────────
-const API_BASE = 'https://encrypter-production-0ee6.up.railway.app';
+// const API_BASE = 'https://encrypter-production-0ee6.up.railway.app';
+const API_BASE = "http://127.0.0.1:8000";
 
 const ENDPOINTS = {
     caesar: 'ceaser-cipher',   // as given in your example
@@ -153,7 +154,7 @@ async function callEncryptionAPI(algorithm, text, params, decrypt = false) {
     const url = `${API_BASE}/${slug}`;
 
     const body = {
-        plain_text: text,
+        text: text,
         mode: decrypt ? 'decrypt' : 'encrypt',
         ...params,          // spread shift / key / rails / a / b as top-level fields
     };
