@@ -1,4 +1,4 @@
-def encypt_rail_fence(plain_text, rails):
+def encrypt_rail_fence(plain_text, rails):
     fence = [ [] for i in range(rails)] # create rails
     
     rail = 0
