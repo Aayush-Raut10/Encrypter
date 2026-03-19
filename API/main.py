@@ -29,7 +29,7 @@ def root():
 def ceaser_cipher(payload: dict = Body(...)):
 
     key = payload.get("key")
-    plain_text = payload.get("plain_text").replace(" ", "")
+    plain_text = payload.get("plain_text")
     
     cipher_text = ""
     
